@@ -1,7 +1,16 @@
-import express from "express";
+import Express from "express";
 import ViteExpress from "vite-express";
+import dotenv from "dotenv";
+import productRoutes from "./routes/productRoutes";
+import connectDB from "./config/db";
 
-const app = express();
+dotenv.config();
+
+connectDB();
+
+const app = Express();
+
+app.use("/api/products", productRoutes);
 
 app.get("/hello", (_, res) => {
   res.send("Hello Vite + React + TypeScript!");

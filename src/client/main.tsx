@@ -9,21 +9,21 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 
 const router = createBrowserRouter([
-  // {
-  //   path: "/",
-  //   element: <Root />,
-  //   children: [
-  //     {
-  //       index: true,
-  //       element: <HomeScreen />,
-  //     },
-  //     {
-  //       path: "product/:productId",
-  //       element: <ProductScreen />,
-  //       loader: productLoader,
-  //     },
-  //   ],
-  // },
+  {
+    path: "/",
+    element: <Root />,
+    children: [
+      {
+        index: true,
+        element: <HomeScreen />,
+      },
+      {
+        path: "product/:productId",
+        element: <ProductScreen />,
+        loader: productLoader,
+      },
+    ],
+  },
   {
     path: "*",
     element: <Root />,
