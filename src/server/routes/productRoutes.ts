@@ -40,7 +40,7 @@ router.get(
 // @access Public
 router.get(
   "/:id",
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (req: Express.Request, res: Express.Response) => {
     if (mongoose.Types.ObjectId.isValid(req.params.id)) {
       const product = await Product.findById(req.params.id);
 
