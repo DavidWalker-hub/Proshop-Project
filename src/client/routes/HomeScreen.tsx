@@ -2,12 +2,13 @@ import React from "react";
 import { Col, Row } from "react-bootstrap";
 import { Product } from "../components/Product";
 import { useGetProductsQuery } from "../redux/slices/productsApiSlice";
+import { Loader } from "../components/Loader";
 
 export const HomeScreen: React.FC = () => {
   const { data: products, isLoading, error } = useGetProductsQuery("Product");
 
   if (isLoading) {
-    return <h2>Loading...</h2>;
+    return <Loader />;
   }
   if (error) {
     if ("status" in error) {

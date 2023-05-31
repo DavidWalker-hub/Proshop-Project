@@ -11,6 +11,7 @@ import {
 } from "react-bootstrap";
 import { Rating } from "../components/Rating";
 import { useGetProductDetailsQuery } from "../redux/slices/productsApiSlice";
+import { Loader } from "../components/Loader";
 
 export const ProductScreen: React.FC = () => {
   const { productId } = useParams();
@@ -21,7 +22,7 @@ export const ProductScreen: React.FC = () => {
   } = useGetProductDetailsQuery(productId as string);
 
   if (isLoading) {
-    return <h2>Loading...</h2>;
+    return <Loader />;
   }
   if (error) {
     if ("status" in error) {
