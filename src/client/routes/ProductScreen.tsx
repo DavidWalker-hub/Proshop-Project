@@ -1,9 +1,10 @@
-import React from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   Button,
   Card,
   Col,
+  FormSelect,
   Image,
   ListGroup,
   ListGroupItem,
@@ -13,14 +14,34 @@ import { Rating } from "../components/Rating";
 import { useGetProductDetailsQuery } from "../redux/slices/productsApiSlice";
 import { Loader } from "../components/Loader";
 import { Message } from "../components/Message";
+import { addToCart } from "../redux/slices/cartSlice";
+import { useDispatch } from "react-redux";
+import { ProductInterface } from "../../types/product";
 
 export const ProductScreen: React.FC = () => {
   const { productId } = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [qty, setQty] = useState<number>(1);
   const {
     data: product,
     isLoading,
     error,
   } = useGetProductDetailsQuery(productId as string);
+
+  const handleAddToCart = (product: ProductInterface) => {
+    dispatch(
+      addToCart({
+        _id: product._id,
+        name: product.name,
+        image: product.image,
+        price: product.price,
+        qty,
+      })
+    );
+    navigate("/cart");
+  };
 
   if (isLoading) {
     return <Loader />;
@@ -88,8 +109,39 @@ export const ProductScreen: React.FC = () => {
                     </Col>
                   </Row>
                 </ListGroupItem>
+
+                {product.countInStock > 0 && (
+                  <ListGroupItem>
+                    <Row>
+                      <Col>Qty</Col>
+                      <Col>
+                        <FormSelect
+                          size="sm"
+                          value={qty}
+                          onChange={(e) => setQty(Number(e.target.value))}
+                        >
+                          {[...new Array(product.countInStock).keys()].map(
+                            (stockQty) => {
+                              const qty = stockQty + 1;
+                              return (
+                                <option key={qty} value={qty}>
+                                  {qty}
+                                </option>
+                              );
+                            }
+                          )}
+                        </FormSelect>
+                      </Col>
+                    </Row>
+                  </ListGroupItem>
+                )}
+
                 <ListGroupItem className="d-grid">
-                  <Button type="button" disabled={product.countInStock < 1}>
+                  <Button
+                    type="button"
+                    disabled={product.countInStock < 1}
+                    onClick={() => handleAddToCart(product)}
+                  >
                     Add To Cart
                   </Button>
                 </ListGroupItem>
