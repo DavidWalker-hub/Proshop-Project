@@ -10,7 +10,7 @@ import {
   Row,
 } from "react-bootstrap";
 import { Rating } from "../components/Rating";
-import { useGetProductQuery } from "../redux/slices/productsApiSlice";
+import { useGetProductDetailsQuery } from "../redux/slices/productsApiSlice";
 
 export const ProductScreen: React.FC = () => {
   const { productId } = useParams();
@@ -18,7 +18,7 @@ export const ProductScreen: React.FC = () => {
     data: product,
     isLoading,
     error,
-  } = useGetProductQuery(productId as string);
+  } = useGetProductDetailsQuery(productId as string);
 
   if (isLoading) {
     return <h2>Loading...</h2>;
