@@ -1,32 +1,40 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Col, Row } from "react-bootstrap";
 import { Product } from "../components/Product";
-import { ProductInterface } from "../../types/product";
-import axios from "axios";
+import { useGetProductsQuery } from "../redux/slices/productsApiSlice";
 
 export const HomeScreen: React.FC = () => {
-  const [products, setProducts] = useState<ProductInterface[]>([]);
+  const { data: products, isLoading, error } = useGetProductsQuery("Product");
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const { data } = await axios.get("/api/products");
-      setProducts(data);
-    };
+  if (isLoading) {
+    return <h2>Loading...</h2>;
+  }
+  if (error) {
+    if ("status" in error) {
+      const errMsg =
+        "error" in error ? error.error : JSON.stringify(error.data);
 
-    fetchProducts();
-  }, []);
+      return (
+        <div>
+          <div>An error has occurred:</div>
+          <div>{errMsg}</div>
+        </div>
+      );
+    } else {
+      return <div>{error.message}</div>;
+    }
+  }
 
   return (
     <>
       <h1>Welcome to the ProShop</h1>
       <h2>Latest Products</h2>
       <Row>
-        {products.length > 0 &&
-          products.map((product) => (
-            <Col sm={12} md={6} lg={4} xl={3} key={product._id}>
-              <Product product={product} />
-            </Col>
-          ))}
+        {products?.map((product) => (
+          <Col sm={12} md={6} lg={4} xl={3} key={product._id}>
+            <Product product={product} />
+          </Col>
+        ))}
       </Row>
     </>
   );
