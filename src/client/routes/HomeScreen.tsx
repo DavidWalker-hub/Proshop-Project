@@ -3,6 +3,7 @@ import { Col, Row } from "react-bootstrap";
 import { Product } from "../components/Product";
 import { useGetProductsQuery } from "../redux/slices/productsApiSlice";
 import { Loader } from "../components/Loader";
+import { Message } from "../components/Message";
 
 export const HomeScreen: React.FC = () => {
   const { data: products, isLoading, error } = useGetProductsQuery("Product");
@@ -16,13 +17,15 @@ export const HomeScreen: React.FC = () => {
         "error" in error ? error.error : JSON.stringify(error.data);
 
       return (
-        <div>
-          <div>An error has occurred:</div>
-          <div>{errMsg}</div>
-        </div>
+        <Message variant="danger">
+          <>
+            <div>An error has occurred:</div>
+            <div>{errMsg}</div>
+          </>
+        </Message>
       );
     } else {
-      return <div>{error.message}</div>;
+      return <Message variant="danger">{error.message} </Message>;
     }
   }
 

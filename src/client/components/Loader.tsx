@@ -1,10 +1,10 @@
 import React from "react";
 import "../assets/styles/loader.css";
 
-export function Loader() {
+export const Loader: React.FC = () => {
   return (
     <div className="spinnerContainer">
       <div className="spinner"></div>
     </div>
   );
-}
+};
