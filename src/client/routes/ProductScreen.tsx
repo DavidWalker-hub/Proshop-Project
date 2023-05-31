@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { ProductInterface } from "../../types/product";
-import { Link, useLoaderData } from "react-router-dom";
+import React from "react";
+import { Link, useParams } from "react-router-dom";
 import {
   Button,
   Card,
@@ -11,22 +10,34 @@ import {
   Row,
 } from "react-bootstrap";
 import { Rating } from "../components/Rating";
-import axios from "axios";
+import { useGetProductQuery } from "../redux/slices/productsApiSlice";
 
-export const productLoader: ({
-  params,
-}: {
-  params: any;
-}) => Promise<ProductInterface> = async ({ params }) => {
-  const { data } = await axios.get(`/api/products/${params.productId}`);
+export const ProductScreen: React.FC = () => {
+  const { productId } = useParams();
+  const {
+    data: product,
+    isLoading,
+    error,
+  } = useGetProductQuery(productId as string);
 
-  return data;
-};
+  if (isLoading) {
+    return <h2>Loading...</h2>;
+  }
+  if (error) {
+    if ("status" in error) {
+      const errMsg =
+        "error" in error ? error.error : JSON.stringify(error.data);
 
-export const ProductScreen: React.FC = (props) => {
-  console.log("props", props);
-  const product = useLoaderData() as ProductInterface;
-  //   const [product, setProduct] = useState<ProductInterface>(loaderProduct);
+      return (
+        <div>
+          <div>An error has occurred:</div>
+          <div>{errMsg}</div>
+        </div>
+      );
+    } else {
+      return <div>{error.message}</div>;
+    }
+  }
 
   return (
     <>

@@ -3,7 +3,7 @@ import "./assets/styles/index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { HomeScreen } from "./routes/HomeScreen";
 import { Root } from "./routes/Root";
-import { ProductScreen, productLoader } from "./routes/ProductScreen";
+import { ProductScreen } from "./routes/ProductScreen";
 
 import React from "react";
 import ReactDOM from "react-dom/client";
@@ -22,7 +22,6 @@ const router = createBrowserRouter([
       {
         path: "product/:productId",
         element: <ProductScreen />,
-        loader: productLoader,
       },
     ],
   },
