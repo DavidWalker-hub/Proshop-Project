@@ -14,7 +14,7 @@ const app = Express();
 
 app.use("/api/products", productRoutes);
 
-app.use(notFound);
+// app.use(notFound);
 app.use(errorHandler);
 
 ViteExpress.listen(app, PORT as number, () =>
