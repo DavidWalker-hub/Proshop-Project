@@ -5,3 +5,11 @@ export interface Item {
   image: string;
   price: number;
 }
+
+export interface Cart {
+  cartItems: Item[];
+  itemsPrice: number;
+  shippingPrice: number;
+  taxPrice: number;
+  totalPrice: number;
+}
