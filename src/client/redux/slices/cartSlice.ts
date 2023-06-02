@@ -1,8 +1,8 @@
 import { PayloadAction, createSlice, current } from "@reduxjs/toolkit";
-import { Item } from "../../../types/cart";
+import { Cart, Item } from "../../../types/cart";
 import { updateCart } from "../../utils/cartUtils";
 
-const initialState = localStorage.getItem("cart")
+const initialState: Cart = localStorage.getItem("cart")
   ? JSON.parse(localStorage.getItem("cart") as string)
   : { cartItems: [] as Item[] };
 
