@@ -14,7 +14,7 @@ import {
 } from "react-bootstrap";
 import { Message } from "../components/Message";
 import { QtyChooser } from "../components/QtyChooser";
-import { Item } from "../../types/cart";
+import { removeFromCart } from "../redux/slices/cartSlice";
 
 export const CartScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -59,7 +59,11 @@ export const CartScreen: React.FC = () => {
                     />
                   </Col>
                   <Col md={2}>
-                    <Button type="button" variant="light">
+                    <Button
+                      type="button"
+                      variant="light"
+                      onClick={() => dispatch(removeFromCart(item._id))}
+                    >
                       <FaTrash />
                     </Button>
                   </Col>
