@@ -17,6 +17,7 @@ import { Message } from "../components/Message";
 import { addToCart } from "../redux/slices/cartSlice";
 import { useDispatch } from "react-redux";
 import { ProductInterface } from "../../types/product";
+import { QtyChooser } from "../components/QtyChooser";
 
 export const ProductScreen: React.FC = () => {
   const { productId } = useParams();
@@ -37,6 +38,7 @@ export const ProductScreen: React.FC = () => {
         name: product.name,
         image: product.image,
         price: product.price,
+        countInStock: product.countInStock,
         qty,
       })
     );
@@ -115,22 +117,11 @@ export const ProductScreen: React.FC = () => {
                     <Row>
                       <Col>Qty</Col>
                       <Col>
-                        <FormSelect
-                          size="sm"
-                          value={qty}
-                          onChange={(e) => setQty(Number(e.target.value))}
-                        >
-                          {[...new Array(product.countInStock).keys()].map(
-                            (stockQty) => {
-                              const qty = stockQty + 1;
-                              return (
-                                <option key={qty} value={qty}>
-                                  {qty}
-                                </option>
-                              );
-                            }
-                          )}
-                        </FormSelect>
+                        <QtyChooser
+                          countInStock={product.countInStock}
+                          qty={qty}
+                          setQty={setQty}
+                        />
                       </Col>
                     </Row>
                   </ListGroupItem>

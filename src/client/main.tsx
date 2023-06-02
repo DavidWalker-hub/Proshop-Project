@@ -9,6 +9,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
+import { CartScreen } from "./routes/CartScreen";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: "product/:productId",
         element: <ProductScreen />,
+      },
+      {
+        path: "cart",
+        element: <CartScreen />,
       },
     ],
   },
