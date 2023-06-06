@@ -5,6 +5,7 @@ import productRoutes from "./routes/productRoutes";
 import userRoutes from "./routes/userRoutes";
 import connectDB from "./config/db";
 import { errorHandler, notFound } from "./middleware/errorMiddleware";
+import cookieParser from "cookie-parser";
 
 dotenv.config({ debug: true });
 const PORT = process.env.PORT || 3000;
@@ -16,6 +17,9 @@ const app = Express();
 // Body parser middleware
 app.use(Express.json());
 app.use(Express.urlencoded({ extended: true }));
+
+// cookie parser middleware
+app.use(cookieParser());
 
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
