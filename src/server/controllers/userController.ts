@@ -7,7 +7,20 @@ import User from "../models/userModel";
 // Public
 export const loginUser = asyncHandler(
   async (req: Express.Request, res: Express.Response) => {
-    res.send("login user");
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+    if (user && (await user.matchPassword(password))) {
+      res.json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin,
+      });
+    } else {
+      res.status(401);
+      throw new Error("Invalid email or password");
+    }
+    res.send(`login user ${req.body}`);
   }
 );
 
