@@ -2,6 +2,7 @@ import Express from "express";
 import ViteExpress from "vite-express";
 import dotenv from "dotenv";
 import productRoutes from "./routes/productRoutes";
+import userRoutes from "./routes/userRoutes";
 import connectDB from "./config/db";
 import { errorHandler, notFound } from "./middleware/errorMiddleware";
 
@@ -13,6 +14,7 @@ connectDB();
 const app = Express();
 
 app.use("/api/products", productRoutes);
+app.use("/api/users", userRoutes);
 
 // app.use(notFound);
 app.use(errorHandler);
