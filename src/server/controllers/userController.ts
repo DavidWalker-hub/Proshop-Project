@@ -55,7 +55,8 @@ export const registerUser = asyncHandler(
 // private
 export const logoutUser = asyncHandler(
   async (req: Express.Request, res: Express.Response) => {
-    res.send("logout user");
+    res.cookie("jwt", "", { httpOnly: true, expires: new Date(0) });
+    res.status(200).json({ message: "Logged out successfully" });
   }
 );
 
@@ -64,6 +65,7 @@ export const logoutUser = asyncHandler(
 // private
 export const getUserProfile = asyncHandler(
   async (req: Express.Request, res: Express.Response) => {
+    res.json(req.user);
     res.send("get user profile");
   }
 );
