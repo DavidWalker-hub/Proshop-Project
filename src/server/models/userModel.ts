@@ -1,6 +1,7 @@
-import mongoose, { Document, Model, Schema, model } from "mongoose";
+import mongoose, { Document, Model, Schema, model, Types } from "mongoose";
 import bcrypt from "bcryptjs";
 export interface IUser extends Document {
+  _id: Types.ObjectId;
   name: string;
   email: string;
   password: string;
@@ -42,6 +43,17 @@ const userSchema: Schema = new Schema<IUser, UserModel, IUserMethods>(
 userSchema.methods.matchPassword = async function (enteredPassword: string) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
+
+userSchema.pre(
+  "save",
+  async function (next: mongoose.CallbackWithoutResultAndOptionalError) {
+    if (!this.isModified("password")) {
+      next();
+    }
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+  }
+);
 
 const User = model<IUser, UserModel>("User", userSchema);
 
