@@ -3,15 +3,30 @@ import { Container, Navbar, Nav, Badge, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { FaShoppingCart, FaUser } from "react-icons/fa";
 import logo from "../assets/logo.png";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
+import { useLogoutMutation } from "../redux/slices/usersApiSlice";
+import { clearCredentials } from "../redux/slices/authSlice";
+import { useNavigate } from "react-router-dom";
+import { createToast } from "../utils/errorUtils";
 
 export const Header: React.FC = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { cartItems } = useSelector((state: RootState) => state.cart);
   const { userInfo } = useSelector((state: RootState) => state.auth);
+  const [logout, { isLoading }] = useLogoutMutation();
 
-  const handleLogout = () => {
-    console.log("Logout");
+  const handleLogout = async () => {
+    try {
+      const res = await logout("does it matter").unwrap();
+      console.log("res", res);
+      dispatch(clearCredentials());
+      navigate("/login");
+    } catch (error) {
+      createToast({ error, type: "error" });
+    }
   };
 
   return (
