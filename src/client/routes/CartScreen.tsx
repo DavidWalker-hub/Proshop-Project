@@ -25,6 +25,10 @@ export const CartScreen: React.FC = () => {
 
   const subTotal = cartItems.reduce((acc, item) => acc + item.qty, 0);
 
+  const handleCheckout = () => {
+    navigate("/login?redirect=/shipping");
+  };
+
   return (
     <Row>
       <Col md={8}>
@@ -87,6 +91,7 @@ export const CartScreen: React.FC = () => {
                 type="button"
                 className="btn-block"
                 disabled={cartItems.length === 0}
+                onClick={() => handleCheckout()}
               >
                 Proceed To Checkout
               </Button>
